@@ -5,6 +5,7 @@ import AnswersList from "./AnswersList";
 
 function Survey() {
   const [open, setOpen] = useState(false); //Ignore this state
+  
 
   const initialFormData =  {
     color: "",
@@ -13,21 +14,23 @@ function Survey() {
     username: "",
     email: "",
   }
-
   const [formData, setFormData] = useState(initialFormData);
+  const [answers, setAnswers] = useState([])
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newAnswer = {
+      username: formData.username,
+      color: formData.color,
+      timeSpent: formData.timeSpent,
+      comment: formData.comment,
+    }
 
-    formData.timeSpent.splice(0, formData.timeSpent.length)
-    setFormData({
-      color: "",
-      timeSpent: [],
-      comment: "",
-      username: "",
-      email: "",
-    })
-    console.log(formData);
+    setAnswers([ ...answers, newAnswer])
+    
+
+    setFormData(initialFormData)
+    
   }
 
   const handleChange = (event) => {
@@ -53,7 +56,7 @@ function Survey() {
     <main className="survey">
       <section className={`survey__list ${open ? "open" : ""}`}>
         <h2>Answers list</h2>
-        
+      <AnswersList answersList={answers}/>
       </section>
       <section className="survey__form">
         <form className="form" onSubmit={handleSubmit}>
